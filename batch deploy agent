@@ -1,0 +1,24 @@
+# Target computer inventory
+$computers = @("compupter01")
+
+# installation package path
+$localinstaller = "C:\Installer\Agent.msi"
+$remoterPath = "C:\Temp\Agent.msi"
+$installcommand = "msiexec /i $remotepath /qn"
+
+# Travers computer inventory
+foreach ($computer in $computers){
+ write-host "Processing $computer01" -ForegroundColor Cyan
+
+ try{
+   #copy file
+   Copy-Item -Path $localInstaller -Destination "\\$computer\c$\Temp" -Force
+
+   #remote exec
+   Invoke-Command -ComputerName $computer -ScriptBlock {
+     Start-Process msiexec.exe -ArgumentList "/i c:\Temp\Agent.msi /qn" -Wait
+   }
+
+   Write-Host "$computer -Installed sucessfully" -ForegroundColor Green
+ }
+}
